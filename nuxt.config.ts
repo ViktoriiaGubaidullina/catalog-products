@@ -4,7 +4,7 @@ export default defineNuxtConfig({
 
     devtools: {enabled: true},
 
-    modules: ['@nuxt/eslint', '@pinia/nuxt'],
+    modules: ['@nuxt/eslint', '@pinia/nuxt', 'nuxt-swiper'],
 
     css: ['~/assets/scss/main.scss'],
 
