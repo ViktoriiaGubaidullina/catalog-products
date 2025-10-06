@@ -1,18 +1,27 @@
 import {defineStore} from 'pinia';
 import {reactive} from 'vue';
-import type {Product, ProductsResponse} from "~/types/product";
+import type {Product, ProductsPagination} from "~/types/product";
 import type {Category} from "~/types/category";
+import type {Pagination} from "~/types/pagination";
 
 interface ProductsState {
     products: Product[];
+    productsPagination: Pagination;
     categories: Category[];
     searchQuery: string;
     categorySlug: string | null;
 }
 
 export const useProductsStore = defineStore('products', function () {
+    const productsPaginationLimit = 24;
+
     const state = reactive<ProductsState>({
         products: [],
+        productsPagination: {
+            total: 0,
+            skip: 0,
+            limit: productsPaginationLimit,
+        },
         categories: [],
         searchQuery: '',
         categorySlug: null,
@@ -32,6 +41,12 @@ export const useProductsStore = defineStore('products', function () {
         return result;
     })
 
+    const productsPagesCount = computed(
+        () => Number(state.productsPagination.total)
+            ? Math.ceil(Number(state.productsPagination.total) / state.productsPagination.limit)
+            : 1
+    );
+
     function setSearchQuery(value: string): void {
         state.searchQuery = value.trim();
     }
@@ -40,10 +55,20 @@ export const useProductsStore = defineStore('products', function () {
         state.categorySlug = value;
     }
 
-    async function fetchProducts(): Promise<void> {
+    async function fetchProducts(skip: number = 0, limit: number = productsPaginationLimit): Promise<void> {
         try {
-            const response = await useApiFetch<ProductsResponse>('/products');
+            const response = await useApiFetch<ProductsPagination>('/products', {
+                query: {
+                    skip,
+                    limit,
+                }
+            });
             state.products = response.products;
+            state.productsPagination = {
+                total: response.total,
+                skip: response.skip,
+                limit,
+            };
         } catch (e) {
             console.error('[useProductsStore/fetchProducts]: ', e);
         }
@@ -60,6 +85,7 @@ export const useProductsStore = defineStore('products', function () {
     return {
         ...toRefs(state),
         filteredProducts,
+        productsPagesCount,
         setCategorySlug,
         setSearchQuery,
         fetchProducts,

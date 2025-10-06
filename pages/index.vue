@@ -2,6 +2,7 @@
 import {useProductsStore} from "~/store/products";
 import type {SelectOption} from "~/types/ui";
 import type {Category} from "~/types/category";
+import UiPagination from "~/components/ui/UiPagination.vue";
 
 const productsStore = useProductsStore();
 
@@ -33,6 +34,10 @@ onMounted(async () => {
         productsStore.fetchCategories(),
     ]);
 });
+
+async function handlePaginate(value: number): Promise<void> {
+    await productsStore.fetchProducts(value);
+}
 </script>
 
 <template>
@@ -60,16 +65,26 @@ onMounted(async () => {
                 </div>
             </div>
 
-            <div v-if="productsStore.filteredProducts.length" :class="$style.grid">
-                <UiCard
-                    v-for="product in productsStore.filteredProducts"
-                    :key="product.id"
-                    :title="product.title"
-                    :description="product.description"
-                    :image="product.thumbnail"
-                    :url="productLink(product.id)"
+            <template  v-if="productsStore.products.length">
+                <div :class="$style.grid">
+                    <UiCard
+                        v-for="product in productsStore.products"
+                        :key="product.id"
+                        :title="product.title"
+                        :description="product.description"
+                        :image="product.thumbnail"
+                        :url="productLink(product.id)"
+                    />
+                </div>
+
+                <UiPagination
+                    v-if="productsStore.productsPagesCount > 1"
+                    :limit="productsStore.productsPagination.limit"
+                    :skip="productsStore.productsPagination.skip"
+                    :total-count="productsStore.productsPagination.total"
+                    @paginate="handlePaginate"
                 />
-            </div>
+            </template>
         </div>
     </div>
 </template>

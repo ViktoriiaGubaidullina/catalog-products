@@ -1,3 +1,5 @@
+import type {Pagination} from "~/types/pagination";
+
 type ISODateString = `${number}-${number}-${number}T${number}:${number}:${number}.${number}Z`;
 type EmailString = string;
 
@@ -47,9 +49,6 @@ export interface Product {
     images: string[];
 }
 
-export interface ProductsResponse {
+export interface ProductsPagination extends Pagination {
     products: Product[];
-    total: number;
-    skip: number;
-    limit: number;
 }

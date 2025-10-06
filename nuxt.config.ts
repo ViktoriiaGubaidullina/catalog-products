@@ -4,7 +4,17 @@ export default defineNuxtConfig({
 
     devtools: {enabled: true},
 
-    modules: ['@nuxt/eslint', '@pinia/nuxt', 'nuxt-swiper'],
+    modules: ['@nuxt/eslint', '@pinia/nuxt', 'nuxt-swiper', '@nuxt/icon'],
+
+    icon: {
+        mode: 'svg',
+        customCollections: [
+            {
+                prefix: 'icons',
+                dir: './assets/icons',
+            },
+        ],
+    },
 
     css: ['~/assets/scss/main.scss'],
 
