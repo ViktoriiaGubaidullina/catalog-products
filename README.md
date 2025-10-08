@@ -1,3 +1,14 @@
+# Setup
+
+**Requirements:**
+
+- Node.js v20 or higher
+- npm v9 or higher
+
+**Environment variables:**
+
+Create a `.env` file in the project root based on the provided `.env.example`
+
 # About
 
 A small demo app for browsing a product catalog.
