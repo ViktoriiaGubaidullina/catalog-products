@@ -1,14 +1,3 @@
-# Setup
-
-**Requirements:**
-
-- Node.js v20 or higher
-- npm v9 or higher
-
-**Environment variables:**
-
-Create a `.env` file in the project root based on the provided `.env.example`
-
 # About
 
 A small demo app for browsing a product catalog.
@@ -28,6 +17,10 @@ If you’re curious, you can check how filtering is implemented manually in the 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
 ## Setup
+**Requirements:**
+
+- Node.js v20 or higher
+- npm v9 or higher
 
 Make sure to install dependencies:
 
@@ -44,6 +37,9 @@ yarn install
 # bun
 bun install
 ```
+**Environment variables:**
+
+Create a `.env` file in the project root based on the provided `.env.example`
 
 ## Development Server
 
